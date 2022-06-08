@@ -10,9 +10,7 @@ function App() {
   useEffect(()=>{
     axios.get("/api/todos/").then((res) => {
       setTodos(res.data)
-    }).catch(() => {
-      alert("Something went wrong!");
-    })
+    }).catch(() => {alert("Something went wrong!");})
   }, [])
 
   return (
@@ -27,6 +25,7 @@ function App() {
       <Container>
         <TodoForm todos={todos} setTodos={setTodos} />
         <TodoList todos={todos} setTodos={setTodos} />
+        
       </Container>
     </div>
   );

@@ -11,9 +11,7 @@ export default function TodoList({ todos = [], setTodos }){
         return <ListGroup.Item key={t.id} className="d-flex justify-content-between align-items-center">
             <div className="d-flex justify-content-center">
                 <span style={{ marginRight: "12px", cursor: "pointer" }}
-                    onClick={() => {
-                        handleUpdate(t.id, { completed: !t.completed })
-                    }}>
+                    onClick={() => {handleUpdate(t.id, { completed: !t.completed })}}>
                     {t.completed === true ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
                 </span>
                 <span> {t.name} </span>
@@ -33,14 +31,28 @@ export default function TodoList({ todos = [], setTodos }){
                 else return t;
             })
             setTodos(newTodos);
-        }).catch(() => {
-            alert("Something went wrong!")
-        })
+        }).catch(() => { alert("Something went wrong!") })
     }
 
     return <div>
         <ListGroup>
             {todos.map(renderListGroupItem)}
         </ListGroup>
+        <Modal show={true}>
+            <Modal.Header closeButton>
+                <Modal.Title>Edit Todo</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <FormControl value={""} />
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={null}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={null}>
+                    Save Changes
+                </Button>
+            </Modal.Footer>
+        </Modal>
     </div>
 }
