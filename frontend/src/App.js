@@ -6,7 +6,7 @@ import TodoForm from "./components/TodoForm";
 import axios from "axios";
 
 function App() {
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState([]);
   useEffect(()=>{
     axios.get("/api/todos/").then((res) => {
       setTodos(res.data)
@@ -17,7 +17,7 @@ function App() {
     <div>
       <Navbar bg="light" style={{ marginBottom: "20px" }}>
         <Container>
-          <Navbar.Brand href="">
+          <Navbar.Brand href="#">
             Todo App
           </Navbar.Brand>
         </Container>
@@ -25,7 +25,6 @@ function App() {
       <Container>
         <TodoForm todos={todos} setTodos={setTodos} />
         <TodoList todos={todos} setTodos={setTodos} />
-        
       </Container>
     </div>
   );

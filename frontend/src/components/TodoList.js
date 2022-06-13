@@ -31,6 +31,18 @@ export default function TodoList({ todos = [], setTodos }){
         setShow(false);
     }
 
+    const handleDelete = (id) => {
+        axios.delete(`/api/todos/${id}/`)
+            .then(() => {
+                const newTodos = todos.filter(t => {
+                    return t.id !== id
+                });
+                setTodos(newTodos);
+            }).catch(() => {
+                alert("Something went wrong");
+            })
+    }
+    
     const handleChange = (e) => {
         setRecord({
             ...record,
@@ -38,6 +50,11 @@ export default function TodoList({ todos = [], setTodos }){
         })
     }
     
+    const handleSaveChanges = async () => {
+        await handleUpdate(record.id, { name: record.name });
+        handleClose();
+    }
+
     const handleUpdate = async (id, value) => {
         return axios.patch(`/api/todos/${id}/`, value).then((res) => {
             const {data} = res;
@@ -49,9 +66,21 @@ export default function TodoList({ todos = [], setTodos }){
         }).catch(() => { alert("Something went wrong!") })
     }
 
+    const completedTodos = todos.filter(t => t.completed === true);
+    const incompleteTodos = todos.filter(t => t.completed === false);
+
     return <div>
+        <div className="mb-2 mt-4">
+            Incomplete Todos ({incompleteTodos.length})
+        </div>
         <ListGroup>
-            {todos.map(renderListGroupItem)}
+            {incompleteTodos.map(renderListGroupItem)}
+        </ListGroup>
+        <div className="mb-2 mt-4">
+            Completed Todos ({completedTodos.length})
+        </div>
+        <ListGroup>
+            {completedTodos.map(renderListGroupItem)}
         </ListGroup>
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -61,10 +90,10 @@ export default function TodoList({ todos = [], setTodos }){
                 <FormControl value={record ? record.name : ""} onChange={handleChange} />
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={null}>
+                <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={null}>
+                <Button variant="primary" onClick={handleSaveChanges}>
                     Save Changes
                 </Button>
             </Modal.Footer>
