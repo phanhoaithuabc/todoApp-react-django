@@ -14,15 +14,15 @@ export default function TodoList({ todos = [], setTodos }){
         return <ListGroup.Item key={t.id} className="d-flex justify-content-between align-items-center">
             <div className="d-flex justify-content-center">
                 <span style={{ marginRight: "12px", cursor: "pointer" }}
-                    onClick={() => {handleUpdate(t.id, { completed: !t.completed })}}>
-                    {t.completed === true ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
+                    onClick={() => {handleUpdate(t.id, { complete: !t.complete })}}>
+                    {t.complete === true ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
                 </span>
                 <span> {t.name} </span>
             </div>
             <div>
                 <MdEdit style={{cursor: "pointer", marginRight: "12px"}} 
-                    onClick={() => { setRecord(t); setShow(true); }}/>
-                <MdDelete style={{cursor: "pointer"}} />
+                    onClick={() => { setRecord(t); setShow(true); }} />
+                <MdDelete style={{cursor: "pointer"}} onClick={() => { handleDelete(t.id); }}/>
             </div>
         </ListGroup.Item>
     }
@@ -66,8 +66,8 @@ export default function TodoList({ todos = [], setTodos }){
         }).catch(() => { alert("Something went wrong!") })
     }
 
-    const completedTodos = todos.filter(t => t.completed === true);
-    const incompleteTodos = todos.filter(t => t.completed === false);
+    const completedTodos = todos.filter(t => t.complete === true);
+    const incompleteTodos = todos.filter(t => t.complete === false);
 
     return <div>
         <div className="mb-2 mt-4">

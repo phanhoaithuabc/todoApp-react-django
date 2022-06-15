@@ -9,7 +9,8 @@ function App() {
   const [todos, setTodos] = useState([]);
   useEffect(()=>{
     axios.get("/api/todos/").then((res) => {
-      setTodos(res.data)
+      var data1 = res.data
+      setTodos(data1)
     }).catch(() => {alert("Something went wrong!");})
   }, [])
 

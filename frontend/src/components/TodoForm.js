@@ -11,7 +11,21 @@ export default function TodoForm({ todos, setTodos }) {
         setName(e.target.value)
     }
     const handleSubmit = e => {
-        
+        e.preventDefault();
+        if (!name) {
+            alert("Please provide a valid value for todo");
+            return;
+        }
+
+        axios.post("/api/todos/", { name: name })
+            .then((res) => {
+                setName("");
+                const { data } = res;
+                setTodos([...todos, data])
+            .catch(() => {
+                alert("Something went wrong");
+            })
+        })
     }
 
     return <Form onSubmit={handleSubmit}>
